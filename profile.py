@@ -73,7 +73,8 @@ for i in range(0, 15):
 		node = request.XenVM("compute-" + str(i-2))
 		node.cores = 4
 		node.ram = 4096
-		node.addService(pg.Execute(shell="sh", command="echo "192.168.1." + str(i + 1) >> /local/repository/source/machine_list"))
+		#node.addService(pg.Execute(shell="sh", command="echo "192.168.1." + str(i + 1) >> /local/repository/source/machine_list"))
+		echo "192.168.1." + str(i + 1) >> /local/repository/source/machine_list
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/nfs_client_setup.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/nfs_client_setup.sh"))
 		# addServices to call bash scripts to add local mount points to client nodes for NFS's
