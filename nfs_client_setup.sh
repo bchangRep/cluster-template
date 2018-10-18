@@ -1,3 +1,4 @@
+#combination of mountHead and mountStorage
 set -x
 sudo yum -y install nfs-utils nfs-utils-lib
 sudo yum -y install portmap
