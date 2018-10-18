@@ -1,5 +1,3 @@
-%%writefile codes/openmpi/pi_mc.c
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>
@@ -38,7 +36,7 @@ int main(int argc, char* argv[]) {
 
   //printf("Rank %d out of %d has starting x %f and starting y %f on a square of size %d \n", 
   //       rank, size, x_start, y_start, squareWidth);
-    
+
   for (i = 0; i < nPointsPerRegion; i++) {
     x_rand = (double)rand() / ((double)RAND_MAX * squareWidth) + x_start;
     y_rand = (double)rand() / ((double)RAND_MAX * squareWidth) + y_start;
@@ -49,7 +47,7 @@ int main(int argc, char* argv[]) {
   }
   stop = MPI_Wtime();
   tcomm += stop - start;
-    
+
   printf("Process %d finished in %f seconds\n",rank,tcomm);
   MPI_Gather(&tcomm, 1, MPI_DOUBLE, globaldata, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
   MPI_Reduce(&nPointsInCircle, &pointsReceived, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
@@ -67,8 +65,8 @@ int main(int argc, char* argv[]) {
         }
     }
     printf("\n");
-    
-    
+
+
   } 
 
   MPI_Finalize();
