@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
     for (a=0; a<size; a++) {
         //printf("%f ", globaldata[a]);
         get_with_the_times +=globaldata[a];
-        if(a%1 == 0){
+        if(a%2 == 1){
             printf("%d processes takes ", a+1);
             printf("%f seconds\n", get_with_the_times);
         }
