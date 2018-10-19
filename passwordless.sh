@@ -91,6 +91,8 @@ cp $PRIVKEY ${CUSTOM_SSHDIR}
 cp $PUBKEY ${CUSTOM_SSHDIR}
 cat $PUBKEY >> ${CUSTOM_SSHDIR}/authorized_keys
 chown -R ${CUSTOM_USER}:${CUSTOM_GROUP} ${CUSTOM_SSHDIR}
-su lngo -c 'echo "StrictHostKeyChecking no" > ${CUSTOM_SSHDIR}/config'
+sudo touch /users/BC843101/.ssh/config
+sudo echo "StrictHostKeyChecking no" | sudo tee --append /users/BC843101/.ssh/config
+#su lngo -c 'echo "StrictHostKeyChecking no" > ${CUSTOM_SSHDIR}/config'
 
 exit 0
