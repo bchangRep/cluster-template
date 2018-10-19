@@ -73,6 +73,10 @@ for i in range(0, 15):
 		node = request.XenVM("compute-" + str(i-2))
 		node.cores = 4
 		node.ram = 4096
+		
+		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/scripts/passwordless.sh"))
+		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/scripts/passwordless.sh"))
+		
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/nfs_client_setup.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/nfs_client_setup.sh"))
 		# addServices to call bash scripts to add local mount points to client nodes for NFS's
@@ -91,12 +95,13 @@ for i in range(0, 15):
 	iface.addAddress(pg.IPv4Address("192.168.1." + str(i + 1), "255.255.255.0"))
 	link.addInterface(iface)
 
-	node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/passwordless.sh"))
-	node.addService(pg.Execute(shell="sh", command="sudo /local/repository/passwordless.sh"))
+
+	#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/passwordless.sh"))
+	#node.addService(pg.Execute(shell="sh", command="sudo /local/repository/passwordless.sh"))
 		
-	node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/ssh_setup.sh"))
-	node.addService(pg.Execute(shell="sh", command="sudo -H -u BC843101 bash -c '/local/repository/ssh_setup.sh'"))
-	node.addService(pg.Execute(shell="sh", command="sudo /local/repository/ssh_setup.sh"))
+	#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/ssh_setup.sh"))
+	#node.addService(pg.Execute(shell="sh", command="sudo -H -u BC843101 bash -c '/local/repository/ssh_setup.sh'"))
+	#node.addService(pg.Execute(shell="sh", command="sudo /local/repository/ssh_setup.sh"))
 	
 	#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/ssh_setup.sh"))
 	#node.addService(pg.Execute(shell="sh", command="sudo -H -u lngo bash -c '/local/repository/ssh_setup.sh'"))
