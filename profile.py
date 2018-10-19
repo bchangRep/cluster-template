@@ -70,8 +70,8 @@ for i in range(0, 15):
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/nfs_client_setup.sh"))
 		# addServices to call bash scripts to add local mount points to client nodes for NFS's		
 		# copy files to scratch
-		#node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /scratch"))
-		#node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /users/BC843101/scratch"))
+		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /scratch"))
+		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /users/BC843101/scratch"))
 		
 	node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:CENTOS7-64-STD"
 
