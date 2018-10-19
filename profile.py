@@ -33,8 +33,6 @@ request.addTour(tour)
 
 link = request.LAN("lan")
 
-#for i in range(0, 4):
-
 for i in range(0, 15):
 		
 	if i == 0:
@@ -48,17 +46,11 @@ for i in range(0, 15):
 		# addServices to install MPI in the /software directory on head node
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/install_mpi.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/install_mpi.sh"))
-		# sleep statement so MPI has ample time to properly install
-		#node.addService(pg.Execute(shell="sh", command="sleep 15m"))
 	elif i == 1:
 		node = request.XenVM("metadata")
 		# Metadata node, maybe remove later?
 	elif i == 2:
 		node = request.XenVM("storage")
-		# addServices to create NFS server on storage node (directory: /scratch)
-		#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/mountHead.sh"))
-		#node.addService(pg.Execute(shell="sh", command="sudo /local/repository/mountHead.sh"))
-
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/mountStorage.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/mountStorage.sh"))
 		
@@ -76,11 +68,7 @@ for i in range(0, 15):
 		
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/nfs_client_setup.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/nfs_client_setup.sh"))
-		# addServices to call bash scripts to add local mount points to client nodes for NFS's
-		#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/mountHead.sh"))
-		#node.addService(pg.Execute(shell="sh", command="sudo /local/repository/mountHead.sh"))
-		#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/mountStorage.sh"))
-		#node.addService(pg.Execute(shell="sh", command="sudo /local/repository/mountStorage.sh"))		
+		# addServices to call bash scripts to add local mount points to client nodes for NFS's		
 		# copy files to scratch
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /scratch"))
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /users/BC843101/scratch"))
@@ -94,20 +82,6 @@ for i in range(0, 15):
 
 	node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/scripts/passwordless.sh"))
 	node.addService(pg.Execute(shell="sh", command="sudo /local/repository/scripts/passwordless.sh"))
-
-	#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/passwordless.sh"))
-	#node.addService(pg.Execute(shell="sh", command="sudo /local/repository/passwordless.sh"))
-		
-	#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/ssh_setup.sh"))
-	#node.addService(pg.Execute(shell="sh", command="sudo -H -u BC843101 bash -c '/local/repository/ssh_setup.sh'"))
-	#node.addService(pg.Execute(shell="sh", command="sudo /local/repository/ssh_setup.sh"))
-	
-	#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/ssh_setup.sh"))
-	#node.addService(pg.Execute(shell="sh", command="sudo -H -u lngo bash -c '/local/repository/ssh_setup.sh'"))
-	
-	#node.addService(pg.Execute(shell="sh", command="sudo su BC843101 -c 'cp /local/repository/source/* /users/BC843101'"))
-	#node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /scratch"))
-	#node.addService(pg.Execute(shell="sh", command="sudo su lngo -c 'cp /local/repository/source/* /users/lngo'"))
 
 # Print the RSpec to the enclosing page.
 pc.printRequestRSpec(request)
