@@ -43,11 +43,11 @@ for i in range(0, 15):
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/nfs_head_setup.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/mountHead.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/mountHead.sh"))
-		# addServices to install MPI in the /software directory on head node
-		
+		# Called in head node to immediately allow it to SSH
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 777 /local/repository/passwordless.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/passwordless.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo systemctl restart nfs-server.service"))
+		# addServices to install MPI in the /software directory on head node
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/install_mpi.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/install_mpi.sh"))
 	elif i == 1:
@@ -84,7 +84,8 @@ for i in range(0, 15):
 	iface.addAddress(pg.IPv4Address("192.168.1." + str(i + 1), "255.255.255.0"))
 	link.addInterface(iface)
 	
-	if i != 1:
+	#Prevent Redundant call in head node
+	if i != 0:
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 777 /local/repository/passwordless.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/passwordless.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo systemctl restart nfs-server.service"))
