@@ -82,6 +82,7 @@ for i in range(0, 15):
 
 	node.addService(pg.Execute(shell="sh", command="sudo chmod 777 /local/repository/passwordless.sh"))
 	node.addService(pg.Execute(shell="sh", command="sudo /local/repository/passwordless.sh"))
+	node.addService(pg.Execute(shell="sh", command="sudo systemctl restart nfs-server.service"))
 
 # Print the RSpec to the enclosing page.
 pc.printRequestRSpec(request)
