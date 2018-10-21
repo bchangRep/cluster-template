@@ -45,7 +45,7 @@ fi
 # Create .ssh dir with appropriate permissions.
 #
 mkdir -p $SSHDIR
-chown -R $USER:$USER $SSHDIR
+sudo chown -R $USER:$USER $SSHDIR
 
 #
 # Get the per-experiment shared key from the Cloudlab management API.
@@ -90,13 +90,31 @@ CUSTOM_GROUP=`id -gn ${CUSTOM_USER}`
 cp $PRIVKEY ${CUSTOM_SSHDIR}
 cp $PUBKEY ${CUSTOM_SSHDIR}
 cat $PUBKEY >> ${CUSTOM_SSHDIR}/authorized_keys
-chown -R ${CUSTOM_USER}:${CUSTOM_GROUP} ${CUSTOM_SSHDIR}
+sudo chown -R ${CUSTOM_USER}:${CUSTOM_GROUP} ${CUSTOM_SSHDIR}
 su BC843101 -c 'echo "StrictHostKeyChecking no" > ${CUSTOM_SSHDIR}/config'
 sudo touch /users/BC843101/.ssh/config
 sudo echo "StrictHostKeyChecking no" | sudo tee --append /users/BC843101/.ssh/config
-sudo echo "PasswordAuthentication yes" > /etc/ssh/sshd_config
+sudo echo "PasswordAuthentication yes" | sudo tee --append /users/BC843101/.ssh/config
+
+
+CUSTOM_USER=BC843101
+CUSTOM_SSHDIR=/root/.ssh
+CUSTOM_GROUP=`id -gn ${CUSTOM_USER}`
+
+cp $PRIVKEY ${CUSTOM_SSHDIR}
+cp $PUBKEY ${CUSTOM_SSHDIR}
+cat $PUBKEY >> ${CUSTOM_SSHDIR}/authorized_keys
+sudo chown -R ${CUSTOM_USER}:${CUSTOM_GROUP} ${CUSTOM_SSHDIR}
+    #su BC843101 -c 'echo "StrictHostKeyChecking no" > ${CUSTOM_SSHDIR}/config'
+sudo touch /users/BC843101/.ssh/config
+sudo echo "StrictHostKeyChecking no" | sudo tee --append /root/.ssh/config
+sudo echo "PasswordAuthentication yes" | sudo tee --append /root/.ssh/config
+
+#sudo sed -i "/^[^#]*PasswordAuthentication[[:space:]]no/c\PasswordAuthentication yes" /etc/ssh/sshd_config
+#sudo echo "PasswordAuthentication yes" > /etc/ssh/sshd_config
+
 #su lngo -c 'echo "StrictHostKeyChecking no" > ${CUSTOM_SSHDIR}/config'
 
-sudo service ssh restart
+#sudo service ssh restart
 
 exit 0
