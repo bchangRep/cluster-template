@@ -110,6 +110,11 @@ sudo touch /users/BC843101/.ssh/config
 sudo echo "StrictHostKeyChecking no" | sudo tee --append /root/.ssh/config
 sudo echo "PasswordAuthentication yes" | sudo tee --append /root/.ssh/config
 
+sudo echo "StrictHostKeyChecking no" | sudo tee --append /etc/ssh/sshd_config
+sudo echo "PasswordAuthentication yes" | sudo tee --append /etc/ssh/sshd_config
+
+
+
 #sudo sed -i "/^[^#]*PasswordAuthentication[[:space:]]no/c\PasswordAuthentication yes" /etc/ssh/sshd_config
 #sudo echo "PasswordAuthentication yes" > /etc/ssh/sshd_config
 
