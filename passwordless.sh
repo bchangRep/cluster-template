@@ -96,4 +96,17 @@ sudo touch /users/BC843101/.ssh/config
 sudo echo "StrictHostKeyChecking no" | sudo tee --append /users/BC843101/.ssh/config
 #su lngo -c 'echo "StrictHostKeyChecking no" > ${CUSTOM_SSHDIR}/config'
 
+#Trying to access root permissions on compute-nodes
+CUSTOM_USER=BC843101
+CUSTOM_SSHDIR=/root/.ssh
+CUSTOM_GROUP=`id -gn ${CUSTOM_USER}`
+
+cp $PRIVKEY ${CUSTOM_SSHDIR}
+cp $PUBKEY ${CUSTOM_SSHDIR}
+cat $PUBKEY >> ${CUSTOM_SSHDIR}/authorized_keys
+chown -R ${CUSTOM_USER}:${CUSTOM_GROUP} ${CUSTOM_SSHDIR}
+su BC843101 -c 'echo "StrictHostKeyChecking no" > ${CUSTOM_SSHDIR}/config'
+sudo touch /users/BC843101/.ssh/config
+sudo echo "StrictHostKeyChecking no" | sudo tee --append /root/.ssh/config
+
 exit 0
