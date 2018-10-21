@@ -80,8 +80,8 @@ for i in range(0, 15):
 	iface.addAddress(pg.IPv4Address("192.168.1." + str(i + 1), "255.255.255.0"))
 	link.addInterface(iface)
 
-	node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/scripts/passwordless.sh"))
-	node.addService(pg.Execute(shell="sh", command="sudo /local/repository/scripts/passwordless.sh"))
+	node.addService(pg.Execute(shell="sh", command="sudo chmod 777 /local/repository/passwordless.sh"))
+	node.addService(pg.Execute(shell="sh", command="sudo /local/repository/passwordless.sh"))
 
 # Print the RSpec to the enclosing page.
 pc.printRequestRSpec(request)
