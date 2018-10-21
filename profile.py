@@ -44,6 +44,10 @@ for i in range(0, 15):
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/mountHead.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/mountHead.sh"))
 		# addServices to install MPI in the /software directory on head node
+		
+		node.addService(pg.Execute(shell="sh", command="sudo chmod 777 /local/repository/passwordless.sh"))
+		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/passwordless.sh"))
+		node.addService(pg.Execute(shell="sh", command="sudo systemctl restart nfs-server.service"))
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/install_mpi.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/install_mpi.sh"))
 	elif i == 1:
@@ -79,10 +83,11 @@ for i in range(0, 15):
 	iface.component_id = "eth1"
 	iface.addAddress(pg.IPv4Address("192.168.1." + str(i + 1), "255.255.255.0"))
 	link.addInterface(iface)
-
-	node.addService(pg.Execute(shell="sh", command="sudo chmod 777 /local/repository/passwordless.sh"))
-	node.addService(pg.Execute(shell="sh", command="sudo /local/repository/passwordless.sh"))
-	node.addService(pg.Execute(shell="sh", command="sudo systemctl restart nfs-server.service"))
+	
+	if i != 1:
+		node.addService(pg.Execute(shell="sh", command="sudo chmod 777 /local/repository/passwordless.sh"))
+		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/passwordless.sh"))
+		node.addService(pg.Execute(shell="sh", command="sudo systemctl restart nfs-server.service"))
 
 # Print the RSpec to the enclosing page.
 pc.printRequestRSpec(request)
