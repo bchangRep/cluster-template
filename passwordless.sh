@@ -94,7 +94,7 @@ chown -R ${CUSTOM_USER}:${CUSTOM_GROUP} ${CUSTOM_SSHDIR}
 su BC843101 -c 'echo "StrictHostKeyChecking no" > ${CUSTOM_SSHDIR}/config'
 sudo touch /users/BC843101/.ssh/config
 sudo echo "StrictHostKeyChecking no" | sudo tee --append /users/BC843101/.ssh/config
-#sudo echo "PasswordAuthentication no" > /etc/ssh/sshd_config
+sudo echo "PasswordAuthentication yes" > /etc/ssh/sshd_config
 #su lngo -c 'echo "StrictHostKeyChecking no" > ${CUSTOM_SSHDIR}/config'
 
 sudo service ssh restart
