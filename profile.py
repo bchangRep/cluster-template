@@ -49,6 +49,9 @@ for i in range(0, 15):
 		# Called in head node to immediately allow it to SSH
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 777 /local/repository/passwordless.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/passwordless.sh"))
+		# copy files to scratch
+		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /scratch"))
+		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /users/BC843101/scratch"))
 		#node.addService(pg.Execute(shell="sh", command="sudo systemctl restart nfs-server.service"))
 		# addServices to install MPI in the /software directory on head node
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/install_mpi.sh"))
