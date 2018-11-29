@@ -33,7 +33,8 @@ request.addTour(tour)
 
 link = request.LAN("lan")
 
-for i in range(0, 15):
+for i in range(0, 3):
+#for i in range(0, 15):
 		
 	if i == 0:
 		node = request.XenVM("head")
