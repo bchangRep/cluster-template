@@ -33,7 +33,7 @@ request.addTour(tour)
 
 link = request.LAN("lan")
 
-for i in range(0, 3):
+for i in range(0, 5):
 #for i in range(0, 15):
 		
 	if i == 0:
