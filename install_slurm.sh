@@ -33,17 +33,23 @@ yum install	-y libibmad libibumad perl-Switch perl-ExtUtils-MakeMaker
 yum install -y mariadb-server mariadb-devel
 
 # Download the Slurm 17.11.7 tarball
-mv files/slurm-$VER.tar.bz2 /root
-cd /root
+#mv files/slurm-$VER.tar.bz2 /root
+#cd /root
 #wget https://download.schedmd.com/slurm/slurm-17.11.7.tar.bz2
+# can run it in /local/repo instead of moving to root, due to permission issues
 
 # Build the RPMs
-rpmbuild -ta slurm-$VER.tar.bz2
-#rpmbuild -ta slurm-17.11.7.tar.bz2
+#rpmbuild -ta slurm-$VER.tar.bz2
+cd /local/repository/
+rpmbuild -ta slurm-17.11.7.tar.bz2
 
 # Install the RPMs on all of the nodes; RPMs on each node can vary by configuration, but
 # this is my starting point
-cd $HOME/rpmbuild/RPMS/x86_64
+# cd $HOME/rpmbuild/RPMS/x86_64
+
+# starting point would be in root, scratch or software? Wherever it is, "cd" into there
+# currently putting it in /software
+cd /software
 export VER=17.11.7-1
 
 yum install -y slurm-$VER.el7.x86_64.rpm
