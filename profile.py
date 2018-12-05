@@ -58,7 +58,8 @@ for i in range(0, 5):
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/install_mpi.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/install_mpi.sh"))
 		# Slurm installation
-		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/install_slurm.sh"))
+		#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/install_slurm.sh"))
+		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurm_installer.sh"))
 	elif i == 1:
 		node = request.XenVM("metadata")
 		# Metadata node, maybe remove later?
