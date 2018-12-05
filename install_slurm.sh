@@ -39,6 +39,7 @@ cd /root
 
 # Build the RPMs
 rpmbuild -ta slurm-$VER.tar.bz2
+#rpmbuild -ta slurm-17.11.7.tar.bz2
 
 # Install the RPMs on all of the nodes; RPMs on each node can vary by configuration, but
 # this is my starting point
