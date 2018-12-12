@@ -33,8 +33,8 @@ request.addTour(tour)
 
 link = request.LAN("lan")
 
-for i in range(0, 5):
-#for i in range(0, 15):
+#for i in range(0, 5):
+for i in range(0, 15):
 		
 	if i == 0:
 		node = request.XenVM("head")
@@ -44,28 +44,37 @@ for i in range(0, 5):
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/nfs_head_setup.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/nfs_storage_setup.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/nfs_storage_setup.sh "))
-		
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/mountHead.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/mountHead.sh"))
 		# Called in head node to immediately allow it to SSH
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 777 /local/repository/passwordless.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/passwordless.sh"))
-		# copy files to scratch
-		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /scratch"))
-		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /users/BC843101/scratch"))
-		#node.addService(pg.Execute(shell="sh", command="sudo systemctl restart nfs-server.service"))
+
 		# addServices to install MPI in the /software directory on head node
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/install_mpi.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/install_mpi.sh"))
 		# Slurm installation
-		#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/install_slurm.sh"))
+		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/slurm/slurm.conf /usr/local/etc/"))
+		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/slurm/cgroup.conf /usr/local/etc/"))
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurm_installer.sh"))
-		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurmctld.sh"))
-		#node.addService(pg.Execute(shell="sh", command="sudo /local/repository/slurmctld.sh"))		
+		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurmctld"))
+		#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurmctld.sh"))
+		# copy files to scratch (Copy is now last command to run here)
+		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /scratch"))
+		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /users/BC843101/scratch"))
 	elif i == 1:
 		node = request.XenVM("metadata")
-		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurmdbd.sh"))
-		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/slurmdbd.sh"))		
+		node.addService(pg.Execute(shell="sh", command="sudo bash /local/repository/slurm_install.sh"))
+		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/slurm/slurmdbd.conf /usr/local/etc/"))
+		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/slurm/cgroup.conf /usr/local/etc/"))
+		# Commands for mariadb
+		node.addService(pg.Execute(shell="sh", command="sudo systemctl enable mariadb"))
+		node.addService(pg.Execute(shell="sh", command="sudo systemctl start mariadb"))
+		# Commands for metadata slurm
+		node.addService(pg.Execute(shell="sh", command="mysql -u root < /local/repository/slurm/sqlSetup.sh"))
+		node.addService(pg.Execute(shell="sh", command="sudo /usr/local/etc/slurmdbd"))
+		#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurmdbd.sh"))
+		#node.addService(pg.Execute(shell="sh", command="sudo /local/repository/slurmdbd.sh"))		
 	elif i == 2:
 		node = request.XenVM("storage")
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/nfs_head_setup.sh"))
@@ -91,6 +100,11 @@ for i in range(0, 5):
 		# copy files to scratch
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /scratch"))
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /users/BC843101/scratch"))
+		
+		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/slurm/slurm.conf /usr/local/etc/"))
+		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/slurm/cgroup.conf /usr/local/etc/"))
+		node.addService(pg.Execute(shell="sh", command="sudo bash /local/repository/slurm_installer.sh"))
+		node.addService(pg.Execute(shell="sh", command="sudo /usr/local/etc/slurmd"))
 		
 		#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurmd.sh"))
 		#node.addService(pg.Execute(shell="sh", command="sudo /local/repository/slurmd.sh"))
