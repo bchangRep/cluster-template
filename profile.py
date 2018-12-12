@@ -57,14 +57,19 @@ for i in range(0, 15):
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/slurm/slurm.conf /usr/local/etc/"))
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/slurm/cgroup.conf /usr/local/etc/"))
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurm_installer.sh"))
-		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurmctld"))
+		node.addService(pg.Execute(shell="sh", command="sudo bash /local/repository/slurm_installer.sh"))
+		
+		#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurmctld"))
+		#node.addService(pg.Execute(shell="sh", command="sudo /local/repository/slurmctld"))
+		node.addService(pg.Execute(shell="sh", command="sudo /usr/local/etc/slurmctld"))
 		#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurmctld.sh"))
 		# copy files to scratch (Copy is now last command to run here)
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /scratch"))
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /users/BC843101/scratch"))
 	elif i == 1:
 		node = request.XenVM("metadata")
-		node.addService(pg.Execute(shell="sh", command="sudo bash /local/repository/slurm_install.sh"))
+		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurm_installer.sh"))
+		node.addService(pg.Execute(shell="sh", command="sudo bash /local/repository/slurm_installer.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/slurm/slurmdbd.conf /usr/local/etc/"))
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/slurm/cgroup.conf /usr/local/etc/"))
 		# Commands for mariadb
@@ -84,15 +89,13 @@ for i in range(0, 15):
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/mountStorage.sh"))
 		
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/nfs_storage_setup.sh"))
-		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/nfs_storage_setup.sh "))		
+		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/nfs_storage_setup.sh "))
 		# copy files to scratch
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /scratch"))
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /users/BC843101/scratch"))
 	else:
 		# compute-num nodes
 		node = request.XenVM("compute-" + str(i-2))
-		node.cores = 4
-		node.ram = 4096
 		node.addService(pg.Execute(shell="sh", command="sleep 5m"))
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/nfs_client_setup.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /local/repository/nfs_client_setup.sh"))
@@ -100,17 +103,16 @@ for i in range(0, 15):
 		# copy files to scratch
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /scratch"))
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /users/BC843101/scratch"))
-		
+		# Slurm
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/slurm/slurm.conf /usr/local/etc/"))
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/slurm/cgroup.conf /usr/local/etc/"))
+		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurm_installer.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo bash /local/repository/slurm_installer.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo /usr/local/etc/slurmd"))
-		
-		#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurmd.sh"))
-		#node.addService(pg.Execute(shell="sh", command="sudo /local/repository/slurmd.sh"))
-		
+	
 	node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:CENTOS7-64-STD"
-
+	node.cores = 4
+	node.ram = 4096
 	iface = node.addInterface("if" + str(i))
 	iface.component_id = "eth1"
 	iface.addAddress(pg.IPv4Address("192.168.1." + str(i + 1), "255.255.255.0"))
