@@ -61,7 +61,7 @@ for i in range(0, 15):
 		
 		#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurmctld"))
 		#node.addService(pg.Execute(shell="sh", command="sudo /local/repository/slurmctld"))
-		node.addService(pg.Execute(shell="sh", command="sudo /usr/local/etc/slurmctld"))
+		node.addService(pg.Execute(shell="sh", command="sudo /usr/local/sbin/slurmctld"))
 		#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurmctld.sh"))
 		# copy files to scratch (Copy is now last command to run here)
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/source/* /scratch"))
@@ -76,8 +76,8 @@ for i in range(0, 15):
 		node.addService(pg.Execute(shell="sh", command="sudo systemctl enable mariadb"))
 		node.addService(pg.Execute(shell="sh", command="sudo systemctl start mariadb"))
 		# Commands for metadata slurm
-		node.addService(pg.Execute(shell="sh", command="mysql -u root < /local/repository/slurm/sqlSetup.sh"))
-		node.addService(pg.Execute(shell="sh", command="sudo /usr/local/etc/slurmdbd"))
+		node.addService(pg.Execute(shell="sh", command="mysql -u root < /local/repository/slurm/sql_Setup.sh"))
+		node.addService(pg.Execute(shell="sh", command="sudo /usr/local/sbin/slurmdbd"))
 		#node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurmdbd.sh"))
 		#node.addService(pg.Execute(shell="sh", command="sudo /local/repository/slurmdbd.sh"))		
 	elif i == 2:
