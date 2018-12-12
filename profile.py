@@ -108,7 +108,7 @@ for i in range(0, 15):
 		node.addService(pg.Execute(shell="sh", command="sudo cp /local/repository/slurm/cgroup.conf /usr/local/etc/"))
 		node.addService(pg.Execute(shell="sh", command="sudo chmod 755 /local/repository/slurm_installer.sh"))
 		node.addService(pg.Execute(shell="sh", command="sudo bash /local/repository/slurm_installer.sh"))
-		node.addService(pg.Execute(shell="sh", command="sudo /usr/local/etc/slurmd"))
+		node.addService(pg.Execute(shell="sh", command="sudo /usr/local/sbin/slurmd"))
 	
 	node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:CENTOS7-64-STD"
 	node.cores = 4
