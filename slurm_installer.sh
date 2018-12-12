@@ -29,7 +29,7 @@ cd slurm-18.08.3
 make
 make install
 
-cp /local/repository/slurm/slurm.conf /etc/slurm/slurm.conf
+cp /local/repository/slurm/slurm.conf /usr/local/etc/slurm.conf
 
 mkdir /var/spool/slurmctld
 chown slurm: /var/spool/slurmctld
